@@ -17,8 +17,9 @@ csv_file = open(cereal_csv, 'r')
 reader = csv.DictReader(csv_file)
 
 for row in reader:
-    new_maker = CerealMaker()
-    new_maker.manufacturer = row['Manufacturer']
+    new_maker, created = CerealMaker.objects.get_or_create(
+        manufacturer=row['Manufacturer'])
+    # Old - new_maker.manufacturer = row['Manufacturer']
     new_maker.save()
 
     new_cereal = Cereal()

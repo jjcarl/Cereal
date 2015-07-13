@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                {% for maker in makers %}
+
+                    <div class="col-md-3">
+                        {{ maker }} 
+                    </div>                
+                   
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row">
+
+            {% for maker, cereals in makers.items %}
+
+                <h3>{{ maker }}</h3>
+
+                {% for cereal in cereals.values %}
+
+                    {{ cereal.name }}
+                    </br>
+
+                {% endfor %}
+
+            {% endfor %}
+
+        </div>
+    </div>
+
+{% endblock %}

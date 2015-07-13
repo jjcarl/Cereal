@@ -27,6 +27,27 @@ def first_view(request, starts_with=None):
     return HttpResponse(text_string)
 
 
+def template_view(request):
+
+    context = {}
+
+    maker_cereal = {}
+
+    makers = CerealMaker.objects.all()
+
+    for maker in makers:
+        cereals = maker.cereal_set.filter(name__startswith="C")
+        print cereals
+
+        maker.manufacturer = {maker.manufacturer: cereals}
+
+        maker_cereal.update(maker.manufacturer)
+
+    context['makers'] = maker_cereal
+
+    return render(request, 'template_view.html', context)
+
+
 @csrf_exempt
 def get_post(request):
 
