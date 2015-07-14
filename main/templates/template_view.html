@@ -2,34 +2,37 @@
 
 {% block body %}
 
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
                 {% for maker in makers %}
 
                     <div class="col-md-3">
-                        {{ maker }} 
-                    </div>                
+                        <b>{{ maker }} </b>
+                    </div>
                    
                 {% endfor %}
             </div>
         </div>
-        <div class="row">
+
 
             {% for maker, cereals in makers.items %}
 
-                <h3>{{ maker }}</h3>
+                <div class="row">
 
-                {% for cereal in cereals.values %}
+                    <h3>{{ maker }}</h3>
+                    
+                    {% for cereal in cereals.values %}
+                        <div class="col-md-4">
+                        {{ cereal.name }}
 
-                    {{ cereal.name }}
-                    </br>
-
-                {% endfor %}
-
+                        </div>
+                    {% endfor %}
+                    
+                    
+                </div>
             {% endfor %}
 
-        </div>
     </div>
 
 {% endblock %}

@@ -36,7 +36,7 @@ def template_view(request):
     makers = CerealMaker.objects.all()
 
     for maker in makers:
-        cereals = maker.cereal_set.filter(name__startswith="C")
+        cereals = maker.cereal_set.filter(name__startswith="")
         print cereals
 
         maker.manufacturer = {maker.manufacturer: cereals}
@@ -46,6 +46,27 @@ def template_view(request):
     context['makers'] = maker_cereal
 
     return render(request, 'template_view.html', context)
+
+
+def detailed_view(request):
+
+    context = {}
+
+    maker_cereal = {}
+
+    makers = CerealMaker.objects.all()
+
+    for maker in makers:
+        cereals = maker.cereal_set.all()
+        print cereals
+
+        maker.manufacturer = {maker.manufacturer: cereals}
+
+        maker_cereal.update(maker.manufacturer)
+
+    context['makers'] = maker_cereal
+
+    return render(request, 'detailed_view.html', context)
 
 
 @csrf_exempt

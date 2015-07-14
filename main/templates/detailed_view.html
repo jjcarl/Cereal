@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="container-fluid">
+    
+    
+     {% for maker, cereals in makers.items %}
+        <div class="row">
+            
+        <h2>{{ maker }}</h2>
+            
+
+            {% for cereal in cereals.values %}
+                <div class="col-md-3">
+                    <h4>{{ cereal.name|dictsort:"name" }} {{cereal.name}}:</h4>
+                    </br>
+                    {% for item, stuff in cereal.items%}
+                        {{item}}:
+                        {{stuff}},
+                        </br>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            
+
+       </div>
+    {% endfor %}
+        
+     
+</div>
+    
+{% endblock body %}
