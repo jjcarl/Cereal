@@ -63,7 +63,7 @@ DATABASES = {
         'NAME': 'django_cereal',
         'HOST': '127.0.0.1',
         'USER': 'root',
-        'PASSWORD': 'JJCjon40',
+        'PASSWORD': 'newserver',
         'PORT': '',
     }
 }
@@ -82,6 +82,13 @@ USE_L10N = True
 USE_TZ = True
 
 TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates')
+
+EMAIL_HOST = 'smtp-relay.gmail.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'jcarl9000'
+EMAIL_HOST_PASSWORD = 'coding2day'
+#EMAIL_USE_TLS = False
+#EMAIL_USE_SSL =
 
 
 # Static files (CSS, JavaScript, Images)

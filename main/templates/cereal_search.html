@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block body %}
+    
+<form action="/cereal_search/" method="POST">
+
+    {% csrf_token %}
+    
+    {{ form.as_table }}
+
+    <input type="submit" value="Search">
+
+    </form>
+
+    </br>
+    </br>
+
+    {{ valid }}
+
+    </br>
+    </br>
+
+    {% for cereal in cereal_list %}
+       <a href="/cereals/{{ cereal.pk}}/"> {{cereal}}</a>
+    {% endfor %}
+
+{% endblock body %}

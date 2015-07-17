@@ -1,9 +1,27 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.http import HttpResponse
 from main.models import Cereal, CerealMaker
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from django.utils.decorators import method_decorator
+from django.template import RequestContext
+from main.forms import CerealSearchForm, CreateCerealForm
+from django.core.urlresolvers import reverse
+from django.views.generic import FormView
+
+
+class MakerListView(ListView):
+    model = CerealMaker
+    template_name = "cerealmaker_list.html"
+    context_object_name = "maker_list"
+
+
+class CerealDetailView(DetailView):
+    model = Cereal
+    template_name = "cereal_detail.html"
+    context_object_name = "cereal"
 
 
 def first_view(request, starts_with=None):
@@ -195,3 +213,73 @@ class GetPost(View):
         response = self.form
 
         return HttpResponse(response)
+
+
+def cereal_search(request):
+    request_context = RequestContext(request)
+    context = {}
+
+    if request.method == 'POST':
+        form = CerealSearchForm(request.POST)
+        context['form'] = form
+
+        if form.is_valid():
+
+            name = form.cleaned_data['name']
+            manufacturer = form.cleaned_data['manufacturer']
+
+            context['cereal_list'] = Cereal.objects.filter(name__startswith=name, manufacturer__manufacturer__startswith=manufacturer)
+
+            context['valid'] = "Form is Valid"
+
+        else:
+            context['valid'] = form.errors
+
+        return render_to_response("cereal_search.html", context, context_instance=request_context)
+
+    else:
+        form = CerealSearchForm()
+        context['form'] = form
+
+        return render_to_response("cereal_search.html", context, context_instance=request_context)
+
+
+def cereal_create(request):
+    request_context = RequestContext(request)
+    context = {}
+
+    if request.method == 'POST':
+        form = CreateCerealForm(request.POST)
+        context['form']
+
+        if form.is_valid():
+            form.save()
+
+            context['valid'] = "Cereal Saved"
+
+        else:
+            context['valid'] = form.errors
+
+        return render_to_response("cereal_create.html", context, context_instance=request_context)
+
+    else:
+        form = CreateCerealForm()
+        context['form'] = form
+
+        return render_to_response("cereal_create.html", context, context_instance = request_context)
+
+
+class CerealSearchView(FormView):
+    template_name = 'cereal_search.html'
+    form_class = CerealSearchForm
+
+    def form_valid(self, form):
+        name = form.cleaned_data['name']
+        manufacturer = form.cleaned_data['manufacturer']
+
+        context['cereal_list'] = Cereal.objects.filter(name__startswith=name, manufacturer__manufacturer__startswith=manufacturer)
+
+        return render_to_response("cereal_search.html", context, context_instance=request_context)
+
+
+
