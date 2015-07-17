@@ -11,6 +11,8 @@ from main.forms import CerealSearchForm, CreateCerealForm
 from django.core.urlresolvers import reverse
 from django.views.generic import FormView
 
+from django.core.mail import send_mail
+
 
 class MakerListView(ListView):
     model = CerealMaker
@@ -274,12 +276,15 @@ class CerealSearchView(FormView):
     form_class = CerealSearchForm
 
     def form_valid(self, form):
+        request_context = RequestContext(self.request)
+
+        context = {}
+
         name = form.cleaned_data['name']
         manufacturer = form.cleaned_data['manufacturer']
 
         context['cereal_list'] = Cereal.objects.filter(name__startswith=name, manufacturer__manufacturer__startswith=manufacturer)
 
+        send_mail('Cereal Name starts with %s' % name, 'The Maker is %s.' % manufacturer, 'jcarl9000@gmail.com', ['jcarl9000@gmail.com'], fail_silently=False)
+
         return render_to_response("cereal_search.html", context, context_instance=request_context)
-
-
-

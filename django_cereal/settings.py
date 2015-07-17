@@ -83,11 +83,11 @@ USE_TZ = True
 
 TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates')
 
-EMAIL_HOST = 'smtp-relay.gmail.com'
-EMAIL_PORT = 25
-EMAIL_HOST_USER = 'jcarl9000'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'jcarl9000@gmail.com'
 EMAIL_HOST_PASSWORD = 'coding2day'
-#EMAIL_USE_TLS = False
+EMAIL_USE_TLS = True
 #EMAIL_USE_SSL =
 
 
