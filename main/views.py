@@ -252,7 +252,7 @@ def cereal_create(request):
 
     if request.method == 'POST':
         form = CreateCerealForm(request.POST)
-        context['form']
+        context['form'] = form
 
         if form.is_valid():
             form.save()

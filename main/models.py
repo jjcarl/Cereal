@@ -1,6 +1,10 @@
 from django.db import models
+from django.db.models import signals
+from django.core.mail import send_mail
 
-# Create your models here.
+
+def send_confirm_email(sender, instance, created, **kwargs):
+    send_mail('New Cereal %s' % instance.name, 'The Maker is %s.' % instance.manufacturer, 'jcarl9000@gmail.com', ['jcarl9000@gmail.com'], fail_silently=False)
 
 
 class CerealMaker(models.Model):
@@ -33,3 +37,5 @@ class Cereal(models.Model):
     class Meta:
         verbose_name = 'Cereal'
         verbose_name_plural = 'Cereals'
+
+signals.post_save.connect(send_confirm_email, sender=Cereal)
